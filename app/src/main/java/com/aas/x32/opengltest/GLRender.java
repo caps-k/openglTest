@@ -24,6 +24,7 @@ public class GLRender implements GLSurfaceView.Renderer
     private Cylinder _cylinder = new Cylinder(3.0f, 5.0f, 50, 50);
     private Sphere _sphere = new Sphere(2.0f, 20, 20);
     private Ring _ring = new Ring(1.0f, 2.0f, 50, 50);
+    private Cube _cube = new Cube(4, 4);
 
     private FloatBuffer lightAmbient = FloatBuffer.wrap(new float[]{0.5f, 0.5f, 0.5f,1.0f});
 
@@ -71,7 +72,8 @@ public class GLRender implements GLSurfaceView.Renderer
 //        this._cone.draw(gl);
 //        this._cylinder.draw(gl);
 //        this._sphere.draw(gl);
-        this._ring.draw(gl);
+//        this._ring.draw(gl);
+        this._cube.draw(gl);
     }
 
     public void onSurfaceChanged(GL10 gl, int width, int height)
