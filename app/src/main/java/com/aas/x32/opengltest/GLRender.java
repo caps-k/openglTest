@@ -18,13 +18,23 @@ public class GLRender implements GLSurfaceView.Renderer
 {
     float xrot, yrot, zrot;
 
-    private RectanglePlane _rectanglePlane = new RectanglePlane(10.0f, 10.0f, 10, 10);
-    private CirclePlane _circlePlane = new CirclePlane(5.0f, 10, 10);
-    private Cone _cone = new Cone(3.0f, 5.0f, 10, 10);
-    private Cylinder _cylinder = new Cylinder(3.0f, 5.0f, 50, 50);
-    private Sphere _sphere = new Sphere(2.0f, 20, 20);
-    private Ring _ring = new Ring(1.0f, 2.0f, 50, 50);
-    private Cube _cube = new Cube(4, 4);
+//    private RectanglePlane _rectanglePlane = new RectanglePlane(10.0f, 10.0f, 10, 10);
+//    private CirclePlane _circlePlane = new CirclePlane(5.0f, 10, 10);
+//    private Cone _cone = new Cone(3.0f, 5.0f, 10, 10);
+//    private Cylinder _cylinder = new Cylinder(3.0f, 5.0f, 50, 50);
+//    private Sphere _sphere = new Sphere(2.0f, 20, 20);
+//    private Ring _ring = new Ring(1.0f, 2.0f, 50, 50);
+//    private Cube _cube = new Cube(4, 4);
+    private Cube _base = new Cube(4.0f, 2);
+    private Cube _lowerArm = new Cube(4.0f, 2);
+    private Cube _upperArm = new Cube(4.0f, 2);
+
+    private float _angle01 = 0.0f;
+    private float _angle02 = 0.0f;
+    private float _angle03 = 0.0f;
+
+    private float _sign01 = 1.0f;
+    private float _sign02 = 1.0f;
 
     private FloatBuffer lightAmbient = FloatBuffer.wrap(new float[]{0.5f, 0.5f, 0.5f,1.0f});
 
@@ -73,7 +83,60 @@ public class GLRender implements GLSurfaceView.Renderer
 //        this._cylinder.draw(gl);
 //        this._sphere.draw(gl);
 //        this._ring.draw(gl);
-        this._cube.draw(gl);
+//        this._cube.draw(gl);
+
+        if(this._angle01 >= 360.0f)
+        {
+            this._angle01 = 0.0f;
+        }
+        else
+        {
+            this._angle01 += 1;
+        }
+
+        if(this._angle02 >= 0)
+        {
+            this._sign01 = -0.5f;
+        }
+        if(this._angle02 < -20)
+        {
+            this._sign01 = 0.5f;
+        }
+        this._angle02 += this._sign01;
+
+        if(this._angle03 >= 0)
+        {
+            this._sign02 = -0.5f;
+        }
+        if(this._angle03 < -20)
+        {
+            this._sign02 = 0.5f;
+        }
+        this._angle03 += this._sign02;
+
+        gl.glRotatef(this._angle01, 0.0f, 1.0f, 0.0f);
+        gl.glPushMatrix();
+        gl.glScalef(1.0f, 0.5f, 1.0f);
+        gl.glTranslatef(0.0f, -2.0f, 0.0f);
+        this._base.draw(gl);
+        gl.glPopMatrix();
+
+        gl.glRotatef(this._angle02, 0.0f, 0.0f, 1.0f);
+        gl.glPushMatrix();
+        gl.glScalef(0.2f, 1.2f, 0.2f);
+        gl.glTranslatef(0.0f, 1.0f, 0.0f);
+        this._lowerArm.draw(gl);
+        gl.glPopMatrix();
+
+        gl.glRotatef(this._angle03, 0.0f, 0.0f, 1.0f);
+        gl.glPushMatrix();
+        gl.glScalef(0.7f, 0.2f, 0.2f);
+        gl.glTranslatef(1.0f, 15.0f, 0.0f);
+        this._upperArm.draw(gl);
+        gl.glPopMatrix();
+
+        gl.glLoadIdentity();
+
     }
 
     public void onSurfaceChanged(GL10 gl, int width, int height)
